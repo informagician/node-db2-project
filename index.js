@@ -22,5 +22,17 @@ server.get('/api/cars', (req,res) => {
     })
 })
 
+server.post('/api/cars', (req,res) => {
+    db('cars')
+    .insert(req.body, 'id')
+    .then(id => {
+        res.status(201).json(id)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({errorMessage: 'something went wrong inserting cars'})
+    })
+})
+
 const port = 4001;
 server.listen(port, () => console.log('\n*** Server is on Port 4001 ***\n'))
