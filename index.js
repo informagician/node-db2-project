@@ -34,5 +34,34 @@ server.post('/api/cars', (req,res) => {
     })
 })
 
+server.put('/api/cars/:id' , (req,res) => {
+    const id = req.params.id
+    const changes = req.body
+    db('cars')
+    .where({id})
+    .update(changes)
+    .then(count => {
+        res.status(200).json(count)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({errorMessage: 'something went wrong updating cars'})
+    })
+})
+
+server.delete('/api/cars/:id', (req,res) =>{
+    const id = req.params.id
+    db('cars')
+    .where({id})
+    .delete()
+    .then(count => {
+        res.status(200).json(count)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({errorMessage: 'something went wrong deleting cars'})
+    })
+})
+
 const port = 4001;
 server.listen(port, () => console.log('\n*** Server is on Port 4001 ***\n'))
